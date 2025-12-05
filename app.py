@@ -1,29 +1,31 @@
 import streamlit as st
 import pandas as pd
-import joblib
+import pickle 
 import numpy as np
 
 # Load the trained model and scaler
-model = joblib.load('svm_rbf_model.joblib')
-scaler = joblib.load('scaler.joblib')
+with open('svm_rbf_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+with open('scaler.pkl', 'rb') as f:
+    scaler = pickle.load(f)
 
 st.title('Diabetic Foot Prediction App')
 st.write('Enter the patient details below to predict the risk of Diabetic Foot.')
 
 # Input fields for numerical features
 st.sidebar.header('Numerical Features')
-age = st.sidebar.number_input('Age', 17, 80, 50)
-duration_dm = st.sidebar.number_input('Duration of DM', 1.0, 30.0, 10.0)
-bm1 = st.sidebar.number_input('BM1', 13.46, 30.80, 23.0)
-fbs = st.sidebar.number_input('FBS', 55, 390, 150)
-hba1c = st.sidebar.number_input('HbA1C', 5.27, 18.69, 8.0)
-itlni_elisa = st.sidebar.number_input('ITLNI ELISA', 8.67, 1130.01, 150.0)
-ntn1_elisa = st.sidebar.number_input('NTN1 ELISA', 37.74, 1354.56, 200.0)
-tg = st.sidebar.number_input('TG', 39.0, 550.0, 120.0)
-hdl = st.sidebar.number_input('HDL', 6.77, 75.80, 35.0)
-ldl = st.sidebar.number_input('LDL', 3.50, 273.60, 95.0)
-cholesterol = st.sidebar.number_input('CHOLESTEROL', 27.0, 343.0, 150.0)
-vldl = st.sidebar.number_input('VLDL', 2.14, 110.0, 13.0)
+age = st.sidebar.number_input('Age', min_value=17, max_value=80, value=50)
+duration_dm = st.sidebar.number_input('Duration of DM', min_value=1.0, max_value=30.0, value=10.0)
+bm1 = st.sidebar.number_input('BM1', min_value=13.46, max_value=30.80, value=23.0)
+fbs = st.sidebar.number_input('FBS', min_value=55, max_value=390, value=150)
+hba1c = st.sidebar.number_input('HbA1C', min_value=5.27, max_value=18.69, value=8.0)
+itlni_elisa = st.sidebar.number_input('ITLNI ELISA', min_value=8.67, max_value=1130.01, value=150.0)
+ntn1_elisa = st.sidebar.number_input('NTN1 ELISA', min_value=37.74, max_value=1354.56, value=200.0)
+tg = st.sidebar.number_input('TG', min_value=39.0, max_value=550.0, value=120.0)
+hdl = st.sidebar.number_input('HDL', min_value=6.77, max_value=75.80, value=35.0)
+ldl = st.sidebar.number_input('LDL', min_value=3.50, max_value=273.60, value=95.0)
+cholesterol = st.sidebar.number_input('CHOLESTEROL', min_value=27.0, max_value=343.0, value=150.0)
+vldl = st.sidebar.number_input('VLDL', min_value=2.14, max_value=110.0, value=13.0)
 
 # Input fields for categorical features
 st.sidebar.header('Categorical Features')
